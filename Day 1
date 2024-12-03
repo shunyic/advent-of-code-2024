@@ -1,0 +1,61 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        int result = 0;
+        int min1;
+        int min2;
+        ArrayList<String> fileData = getFileData("src/Input.txt");
+        // you now have an ArrayList of Strings for each number in the file
+        for(String str: fileData){
+            String[] split_str = str.split(" {3}");
+            arr1.add(Integer.parseInt(split_str[0]));
+            arr2.add(Integer.parseInt(split_str[1]));
+        }
+        for(int i = 0; i < arr1.size(); i++){
+            min1 = Integer.MAX_VALUE;
+            min2 = Integer.MAX_VALUE;
+
+            for(int s: arr1){
+                if (s < min1){
+                    min1 = s;
+                }
+            }
+            for(int j: arr2){
+                if (j<min2){
+                    min2 = j;
+                }
+            }
+            int t1 = arr1.indexOf(min1);
+            int t2 = arr2.indexOf(min2);
+            arr1.remove(t1);
+            arr2.remove(t2);
+            i--;
+            result+=Math.abs(min2-min1);
+        }
+        System.out.print(result);
+
+    }
+
+    public static ArrayList<String> getFileData(String fileName) {
+        ArrayList<String> fileData = new ArrayList<String>();
+        try {
+            File f = new File(fileName);
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (!line.equals(""))
+                    fileData.add(line);
+            }
+            return fileData;
+        }
+        catch (FileNotFoundException e) {
+            return fileData;
+        }
+    }
+}
