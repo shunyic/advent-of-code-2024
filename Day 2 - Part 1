@@ -1,0 +1,65 @@
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ArrayList<String> fileData = getFileData("src/Input.txt");
+        System.out.println(fileData);
+        int r = 0;
+        for (String str: fileData){
+            boolean s = true;
+            String[] temp = str.split(" ");
+            if(ifDec(temp)||ifInc(temp)){
+                if(ifWithinRange(temp)){
+                    r++;
+                }
+            }
+        }
+        System.out.println(r);
+    }
+    private static boolean ifWithinRange(String[] temp){
+        for (int u = 0; u < temp.length-1; u++){
+            int num = Math.abs(Integer.parseInt(temp[u])-Integer.parseInt(temp[u+1]));
+            if(num>3 || num<1){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifDec(String[] temp){
+        for ( int i = 0; i < temp.length-1; i++){
+            if(Integer.parseInt(temp[i])>Integer.parseInt(temp[i+1])){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifInc(String[] temp){
+        for ( int i = 0; i < temp.length-1; i++){
+            if(Integer.parseInt(temp[i])<Integer.parseInt(temp[i+1])){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static ArrayList<String> getFileData(String fileName) {
+        ArrayList<String> fileData = new ArrayList<String>();
+        try {
+            File f = new File(fileName);
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (!line.equals(""))
+                    fileData.add(line);
+            }
+            return fileData;
+        }
+        catch (FileNotFoundException e) {
+            return fileData;
+        }
+    }
+}
