@@ -1,0 +1,123 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Day2 {
+    public static void main(String[] args) {
+
+        ArrayList<String> fileData = getFileData("src/input2.txt");
+        System.out.println(fileData);
+        int r = 0;
+        for (String str: fileData){
+            String[] temp = str.split(" ");
+            if(ifDec(temp)||ifInc(temp)){
+                if(ifWithinRange(temp)){
+                    r++;
+                }
+
+            }
+            else{
+                if(p2(temp)){
+                    r++;
+                }
+            }
+        }
+
+        System.out.println(r);
+    }
+
+    private static boolean p2(String[] temp){
+        ArrayList<ArrayList<Integer>> y = new ArrayList<ArrayList<Integer>>();
+        int m = 0;
+        for(int h = 0; h<temp.length; h++){
+            y.add(new ArrayList<Integer>());
+        }
+        for (ArrayList<Integer> integers : y) {
+            for (int u = 0; u < temp.length; u++) {
+                if (u != m) {
+                    integers.add(Integer.parseInt(temp[u]));
+                }
+            }
+            m++;
+        }
+        System.out.println(y);
+        for(ArrayList<Integer> q: y){
+            if(ifInc(q)||ifDec(q)) {
+                if (ifWithinRange(q)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private static boolean ifWithinRange(String[] temp){
+        for (int u = 0; u < temp.length-1; u++){
+            int num = Math.abs(Integer.parseInt(temp[u])-Integer.parseInt(temp[u+1]));
+            if(num>3 || num<1){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifWithinRange(ArrayList<Integer> temp){
+        for (int u = 0; u < temp.size()-1; u++){
+            int num = Math.abs(temp.get(u)-temp.get(u+1));
+//            System.out.println(num);
+            if(num>3 || num<1){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifDec(String[] temp){
+        for ( int i = 0; i < temp.length-1; i++){
+            if(Integer.parseInt(temp[i])>Integer.parseInt(temp[i+1])){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifDec(ArrayList<Integer> temp){
+        for ( int i = 0; i < temp.size()-1; i++){
+            if(temp.get(i)>temp.get(i+1)){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifInc(String[] temp){
+        for ( int i = 0; i < temp.length-1; i++){
+            if(Integer.parseInt(temp[i])<Integer.parseInt(temp[i+1])){
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean ifInc(ArrayList<Integer> temp){
+        for ( int i = 0; i < temp.size()-1; i++){
+            if(temp.get(i)<temp.get(i+1)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static ArrayList<String> getFileData(String fileName) {
+        ArrayList<String> fileData = new ArrayList<String>();
+        try {
+            File f = new File(fileName);
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (!line.equals(""))
+                    fileData.add(line);
+            }
+            return fileData;
+        }
+        catch (FileNotFoundException e) {
+            return fileData;
+        }
+    }
+}
