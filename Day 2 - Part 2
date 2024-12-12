@@ -8,30 +8,28 @@ import java.util.Scanner;
 public class Day2 {
     public static void main(String[] args) {
 
-        ArrayList<String> fileData = getFileData("src/input2.txt");
+        ArrayList<String> fileData = getFileData("src/input.txt");
         System.out.println(fileData);
         int r = 0;
         for (String str: fileData){
             String[] temp = str.split(" ");
-            if(ifDec(temp)||ifInc(temp)){
-                if(ifWithinRange(temp)){
-                    r++;
-                }
-
+            if((ifDec(temp)||ifInc(temp))&&ifWithinRange(temp)){
+                r++;
             }
-            else{
-                if(p2(temp)){
+            else {
+                if (p2(temp)) {
                     r++;
                 }
             }
+            System.out.println(r);
         }
-
         System.out.println(r);
     }
 
     private static boolean p2(String[] temp){
         ArrayList<ArrayList<Integer>> y = new ArrayList<ArrayList<Integer>>();
         int m = 0;
+        System.out.println(temp);
         for(int h = 0; h<temp.length; h++){
             y.add(new ArrayList<Integer>());
         }
@@ -46,11 +44,13 @@ public class Day2 {
         System.out.println(y);
         for(ArrayList<Integer> q: y){
             if(ifInc(q)||ifDec(q)) {
-                if (ifWithinRange(q)) {
+                if(ifWithinRange(q)) {
+                    System.out.println("safe");
                     return true;
                 }
             }
         }
+        System.out.println("unsafe");
         return false;
     }
     private static boolean ifWithinRange(String[] temp){
