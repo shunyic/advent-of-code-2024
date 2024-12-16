@@ -21,17 +21,6 @@ public class Day3 {
         for (String str: fileData) {
             System.out.println(str);
             y+=str;
-//            Matcher m = Pattern.compile("^don't'\\).*do\\(\\)$").matcher(str);
-//            while (m.find()) {
-//                fileData.remove(m.group());
-//            }
-//            for(String m: q){
-//                System.out.println("m: " + m);
-//                String[] r = m.split("^do\\(\\)");
-//                for(String e: r){
-//                    valid.add(e);
-//                }
-//            }
         }
         String x = y.replaceAll("don't\\(\\).+?do\\(\\)", "");
         temp.add(x);
