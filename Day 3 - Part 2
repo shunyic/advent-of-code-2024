@@ -1,0 +1,78 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class Day3 {
+    public static void main(String[] args) {
+
+        ArrayList<String> fileData = getFileData("src/input.txt");
+        ArrayList<String> exp = new ArrayList<String>();
+        ArrayList<String> nums = new ArrayList<String>();
+        ArrayList<String> temp = new ArrayList<String>();
+        int ans = 0;
+        String y = "";
+        System.out.println(fileData);
+        for (String str: fileData) {
+            System.out.println(str);
+            y+=str;
+//            Matcher m = Pattern.compile("^don't'\\).*do\\(\\)$").matcher(str);
+//            while (m.find()) {
+//                fileData.remove(m.group());
+//            }
+//            for(String m: q){
+//                System.out.println("m: " + m);
+//                String[] r = m.split("^do\\(\\)");
+//                for(String e: r){
+//                    valid.add(e);
+//                }
+//            }
+        }
+        String x = y.replaceAll("don't\\(\\).+?do\\(\\)", "");
+        temp.add(x);
+
+//        System.out.println("valid: " + valid);
+        for (String c: temp){
+            Matcher m = Pattern.compile("mul\\([0-9]*,[0-9]*\\)").matcher(c);
+            while (m.find()) {
+                exp.add(m.group());
+            }
+        }
+        System.out.println(exp);
+        for (String s: exp){
+            Matcher m = Pattern.compile("[0-9]*,[0-9]*").matcher(s);
+            while (m.find()){
+                nums.add(m.group());
+            }
+        }
+        for (String r: nums){
+            String[] l = r.split(",");
+            System.out.println(l[0] + l[1]);
+            ans += Integer.parseInt(l[0])*Integer.parseInt(l[1]);
+            System.out.println(ans);
+        }
+        System.out.println(ans);
+    }
+
+    public static ArrayList<String> getFileData(String fileName) {
+        ArrayList<String> fileData = new ArrayList<String>();
+        try {
+            File f = new File(fileName);
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (!line.equals(""))
+                    fileData.add(line);
+            }
+            return fileData;
+        }
+        catch (FileNotFoundException e) {
+            return fileData;
+        }
+    }
+}
