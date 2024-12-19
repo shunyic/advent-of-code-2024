@@ -1,0 +1,74 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class Day4 {
+    public static void main(String[] args) {
+
+        ArrayList<String> fileData = getFileData("src/input.txt");
+        int rows = fileData.size();
+        int columns = fileData.getFirst().length();
+        String[][] grid = new String[rows][columns];
+        int result = 0;
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                grid[r][c] = fileData.get(r).substring(c, c+1);
+            }
+        }
+        for (String[] s : grid){
+            System.out.println(Arrays.toString(s));
+        }
+//        System.out.println(Arrays.deepToString(grid));
+        for(int row = 0; row < grid.length; row++){
+            for(int col = 0; col < grid[row].length; col++){
+                System.out.println("current position: " + row + " " + col);
+                if(row-1>=0&&col-1>=0&&row+1<grid.length&&col+1<grid[row].length){
+                    if(checkMAS(grid[row][col], grid, row, col)){
+                        result++;
+                    }
+                }
+            }
+        }
+        System.out.println(result);
+    }
+    private static boolean checkMAS(String input, String[][] arr, int r, int c){
+        if(input.equals("A")){
+            if(arr[r-1][c-1].equals("M")&&arr[r- 1][c+1].equals("M")&&arr[r+1][c-1].equals("S")&&arr[r+1][c+1].equals("S")){
+                return true;
+            }
+            else if(arr[r-1][c-1].equals("S")&&arr[r- 1][c+1].equals("S")&&arr[r+1][c-1].equals("M")&&arr[r+1][c+1].equals("M")){
+               return true;
+            }
+            else if(arr[r-1][c-1].equals("M")&&arr[r- 1][c+1].equals("S")&&arr[r+1][c-1].equals("M")&&arr[r+1][c+1].equals("S")){
+                return true;
+            }
+            else if(arr[r-1][c-1].equals("S")&&arr[r- 1][c+1].equals("M")&&arr[r+1][c-1].equals("S")&&arr[r+1][c+1].equals("M")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<String> getFileData(String fileName) {
+        ArrayList<String> fileData = new ArrayList<String>();
+        try {
+            File f = new File(fileName);
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (!line.equals(""))
+                    fileData.add(line);
+            }
+            return fileData;
+        }
+        catch (FileNotFoundException e) {
+            return fileData;
+        }
+    }
+}
